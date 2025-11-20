@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Analysis - FakeBuster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">
+                <img src="{{ url_for('static', filename='logo.jpg') }}" alt="FakeBuster" class="logo-img">
+                FakeBuster
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('analysis') }}" class="nav-link active">Detection</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('index') }}#features" class="nav-link">Features</a>
+                <div class="auth-section" style="display: none;">
+                    <a href="{{ url_for('login') }}" class="nav-link login-btn">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary signup-btn">Sign Up</a>
+                </div>
+                <div class="user-menu" style="display: none;">
+                    <span class="user-name">User</span>
+                    <a href="{{ url_for('history') }}" class="nav-link">
+                        <i class="fas fa-history"></i>
+                    </a>
+                    <button class="btn-logout" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-toggle"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <main class="analysis">
+        <div class="container">
+            <div class="analysis-header">
+                <h1>Deepfake Detection</h1>
+                <p>Upload videos or video frames to analyze for AI-manipulated content</p>
+                <div class="demo-warning"
+                    style="background: #fef3cd; border: 1px solid #f59e0b; border-radius: 8px; padding: 15px; margin: 20px 0; text-align: center;">
+                    <i class="fas fa-info-circle" style="color: #f59e0b;"></i>
+                    <strong>Demo Project:</strong> This is a project demonstration website only. Results may
+                    not be 100% accurate.
+                </div>
+
+                <div id="trialModeIndicator" class="demo-warning"
+                    style="display: none; background: #dbeafe; border: 1px solid #3b82f6;">
+                    <i class="fas fa-flask" style="color: #3b82f6;"></i>
+                    <strong>Trial Mode:</strong> You're using the app without an account. Analysis history will not be
+                    saved.
+                    <a href="{{ url_for('login') }}" class="auth-link" style="margin-left: 10px;">Sign in to save
+                        history</a>
+                </div>
+            </div>
+
+            <div class="analysis-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="upload"><i class="fas fa-video"></i> Video
+                        Analysis</button>
+                    <button class="tab-button" data-tab="batch"><i class="fas fa-film"></i> Video Frames
+                        Analysis</button>
+                </div>
+                <div id="uploadTab" class="tab-content active">
+                    <div class="upload-area" id="uploadVideoArea">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Upload Video (Refresh page/Re-upload if it does'nt work)</h3>
+                        <p>Drag & drop your video file here or click to browse</p>
+                        <p class="text-sm">Supports: MP4, AVI, MOV (Max 100MB)</p>
+                        <div class="upload-tips">
+                            <p style="color: var(--primary-color); font-weight: 600; margin-top: 15px;">
+                                <i class="fas fa-lightbulb"></i> For best results:
+                            </p>
+                            <ul
+                                style="text-align: left; margin: 10px 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li>Keep videos short (&lt;20 seconds)</li>
+                                <li>Frames should show clear, close-up human faces</li>
+                                <li>Face should cover most of the frame</li>
+                                <li>Good lighting and minimal background clutter</li>
+                                <li>Focus on human faces only</li>
+                            </ul>
+                        </div>
+                        <input type="file" id="uploadFileInput" accept=".mp4,.avi,.mov">
+                    </div>
+                </div>
+                <div id="batchTab" class="tab-content">
+                    <div class="upload-area" id="uploadBatchArea">
+                        <i class="fas fa-film upload-icon"></i>
+                        <h3>Upload Video Frames (Refresh page/Re-upload if it does'nt work)</h3>
+                        <p>Drag & drop multiple image files extracted from a video or click to browse</p>
+                        <p class="text-sm">Upload frames extracted from videos for more accurate analysis</p>
+                        <div class="upload-tips">
+                            <p style="color: var(--primary-color); font-weight: 600; margin-top: 15px;">
+                                <i class="fas fa-lightbulb"></i> For best results:
+                            </p>
+                            <ul
+                                style="text-align: left; margin: 10px 0; color: var(--text-secondary); font-size: 0.9rem;">
+                                <li>Extract frames from videos &lt;20 seconds</li>
+                                <li>Frames should show clear, close-up human faces</li>
+                                <li>Face should cover most of the frame</li>
+                                <li>Good lighting and minimal background clutter</li>
+                                <li>Focus on human faces only</li>
+                            </ul>
+                        </div>
+                        <p class="text-sm" style="color: var(--primary-color); font-weight: 600;">
+                            <i class="fas fa-info-circle"></i> Best for analyzing individual frames from video content
+                        </p>
+                        <input type="file" id="batchFileInput" multiple accept=".jpg,.jpeg,.png">
+                    </div>
+                </div>
+            </div>
+
+            <div class="analyze-actions">
+                <button class="btn btn-primary btn-large analyze-btn" disabled><i class="fas fa-search"></i> Analyze for
+                    Deepfakes</button>
+                <p class="text-sm" style="text-align: center; margin-top: 10px; color: var(--text-secondary);">
+                    Analysis typically takes 10-15 seconds depending on file size
+                </p>
+                <p class="text-sm"
+                    style="text-align: center; margin-top: 5px; color: var(--warning-color); font-weight: 600;">
+                    <i class="fas fa-exclamation-triangle"></i> This system detects deepfakes in HUMAN FACES only
+                </p>
+            </div>
+
+            <div class="results-section" style="display: none;">
+                <div class="prediction-card">
+                    <div class="prediction-header">
+                        <div id="predictionStatus" class="prediction-status"></div>
+                    </div>
+                    <div class="result-explanation">
+                        <p id="resultDescription"></p>
+                    </div>
+                </div>
+                <div class="visualization-section">
+                    <h3>Analysis Visualization</h3>
+                    <p class="text-sm" style="text-align: center; color: var(--text-secondary); margin-bottom: 20px;">
+                        Heatmap shows areas the AI focused on for detection
+                    </p>
+                    <div class="visualization-container"></div>
+                </div>
+                <div class="result-actions">
+                    <button class="btn btn-primary new-analysis-btn"><i class="fas fa-redo"></i> New Analysis</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="FakeBuster" class="logo-img">
+                        FakeBuster
+                    </div>
+                    <p>Advanced deepfake detection technology to protect against manipulated media and ensure digital
+                        authenticity.</p>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 10px;">
+                        <i>This is only a project demonstration website.</i>
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="{{ url_for('history') }}">History</a>
+                    <a href="{{url_for('dashboard')}}">Dashboard</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Information</h4>
+                    <a href="{{ url_for('index') }}#features">Features</a>
+                    <a href="{{ url_for('index') }}#about">How It Works</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FakeBuster. All rights reserved. <span style="color: #94a3b8;">Protecting digital
+                        authenticity</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script>firebase.initializeApp(firebaseConfig);</script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

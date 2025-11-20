@@ -1,0 +1,16 @@
+flask
+flask-cors
+torch
+torchvision
+timm
+pillow
+opencv-python
+numpy
+matplotlib
+firebase-admin
+python-dotenv
+gunicorn
+tqdm
+pandas
+scikit-learn
+tensorflow

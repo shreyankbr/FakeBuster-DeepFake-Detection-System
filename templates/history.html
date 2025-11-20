@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - FakeBuster</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">
+                <img src="{{ url_for('static', filename='logo.jpg') }}" alt="FakeBuster" class="logo-img">
+                FakeBuster
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('analysis') }}" class="nav-link">Detection</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('history') }}" class="nav-link active">History</a>
+            </div>
+            <div class="user-menu" style="display: none;">
+                <span class="user-name">User</span>
+                <a href="{{ url_for('history') }}" class="nav-link">
+                    <i class="fas fa-history"></i>
+                </a>
+                <button class="btn-logout" title="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+            <div class="auth-section">
+                <a href="{{ url_for('login') }}" class="login-btn nav-link">Login</a>
+                <a href="{{ url_for('signup') }}" class="btn btn-primary signup-btn">Sign Up</a>
+            </div>
+            <div class="nav-toggle"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <main class="dashboard">
+        <div class="container">
+            <div class="welcome-section">
+                <h1>Analysis History</h1>
+                <p>Review your previous deepfake detection analyses</p>
+            </div>
+
+            <div class="demo-warning">
+                <i class="fas fa-info-circle"></i>
+                <strong>Demo Project:</strong> This is only a project demonstration website. Results may
+                not be 100% accurate.
+            </div>
+
+            <div class="history-filters">
+                <div class="filter-group">
+                    <label>Filter by Result:</label>
+                    <select id="resultFilter">
+                        <option value="all">All Results</option>
+                        <option value="real">Real</option>
+                        <option value="fake">Fake</option>
+                    </select>
+                </div>
+                <button id="clearFiltersBtn" class="btn btn-secondary">Clear Filters</button>
+            </div>
+
+            <div id="historyList" class="activity-list">
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="FakeBuster" class="logo-img">
+                        FakeBuster
+                    </div>
+                    <p>Advanced deepfake detection technology to protect against manipulated media and ensure digital
+                        authenticity.</p>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 10px;">
+                        <i>This is only a project demonstration website.</i>
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="{{ url_for('analysis') }}">Detection</a>
+                    <a href="{{url_for('dashboard')}}">Dashboard</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Information</h4>
+                    <a href="{{ url_for('index') }}#features">Features</a>
+                    <a href="{{ url_for('index') }}#about">How It Works</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FakeBuster. All rights reserved. <span style="color: #94a3b8;">Protecting digital
+                        authenticity</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script>
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

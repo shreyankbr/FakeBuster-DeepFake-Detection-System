@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FakeBuster - Advanced Deepfake Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="nav-logo">
+                <img src="{{ url_for('static', filename='logo.jpg') }}" alt="FakeBuster" class="logo-img">
+                FakeBuster
+            </a>
+
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="nav-link active">Home</a>
+                <a href="{{ url_for('analysis') }}" class="nav-link">Detection</a>
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="#features" class="nav-link">Features</a>
+
+                <div class="auth-section">
+                    <a href="{{ url_for('login') }}" class="nav-link login-btn">Login</a>
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary signup-btn">Sign Up</a>
+                </div>
+
+                <div class="user-menu" style="display: none;">
+                    <span class="user-name">User</span>
+                    <a href="{{ url_for('history') }}" class="nav-link">
+                        <i class="fas fa-history"></i>
+                    </a>
+                    <button class="btn-logout" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Detect Deepfakes with
+                    <span style="color: white;">
+                        AI-Powered Accuracy
+                    </span>
+                </h1>
+                <p class="hero-description">
+                    Protect yourself from manipulated media with our advanced deepfake detection technology.
+                    Upload images or videos and get instant analysis with detailed confidence scores.
+                </p>
+                <div class="hero-buttons">
+                    <a href="{{ url_for('login') }}" class="btn btn-primary btn-large">
+                        <i class="fas fa-play"></i>
+                        Start Detection
+                    </a>
+                    <a href="{{ url_for('analysis') }}?mode=trial" class="btn btn-primary btn-large">
+                        <i class="fas fa-flask"></i>
+                        Free Trial Mode (No Login Required)
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="analysis-card">
+                <div class="card-header">
+                    <h3>Live Analysis</h3>
+                    <div class="status real">
+                        <i class="fas fa-check-circle"></i>
+                        REAL CONTENT
+                    </div>
+                </div>
+                <div class="confidence-meter">
+                    <div class="confidence-fill real" style="width: 94.5%"></div>
+                </div>
+                <div class="confidence-text">94.5% Confidence - Authentic Content</div>
+
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color);">
+                    <div class="card-header">
+                        <h3>Sample Detection</h3>
+                        <div class="status fake">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            DEEPFAKE
+                        </div>
+                    </div>
+                    <div class="confidence-meter">
+                        <div class="confidence-fill fake" style="width: 87.3%"></div>
+                    </div>
+                    <div class="confidence-text">87.3% Confidence - AI Generated</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">The Deepfake Threat</h2>
+            <div class="about-content">
+                <div>
+                    <h3>Why Deepfake Detection Matters</h3>
+                    <p>
+                        Deepfake technology is advancing rapidly, making it easier than ever to create
+                        convincing fake videos and images. These manipulated media can be used for:
+                    </p>
+                    <ul class="threats-list">
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Identity theft and impersonation</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Spread of misinformation and fake news</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Financial fraud and blackmail</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>Reputation damage and cyberbullying</span>
+                        </li>
+                    </ul>
+                    <p>
+                        Our advanced detection system uses state-of-the-art machine learning algorithms
+                        to identify subtle artifacts and inconsistencies that reveal manipulated content.
+                    </p>
+                </div>
+                <div>
+                    <h3>Real vs. Deepfake Comparison</h3>
+                    <div class="comparison">
+                        <div class="comparison-item">
+                            <div class="comparison-label">Real Content</div>
+                            <div class="image-placeholder real">
+                                <i class="fas fa-check-circle"></i>
+                                Authentic Media
+                            </div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-label">Deepfake</div>
+                            <div class="image-placeholder fake">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                AI Generated
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Key Detection Methods:</h4>
+                        <ul class="threats-list1">
+                            <li><i class="fas fa-search"></i> Facial feature analysis</li>
+                            <li><i class="fas fa-search"></i> Texture pattern recognition</li>
+                            <li><i class="fas fa-search"></i> Lighting consistency checks</li>
+                            <li><i class="fas fa-search"></i> Temporal video analysis</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4>Deepfake Types We Can Detect:</h4>
+                        <ul class="methods-list">
+                            <li><i class="fas fa-check-circle"></i> DeepFakes</li> 
+                            <li><i class="fas fa-check-circle"></i> Face2Face</li>
+                            <li><i class="fas fa-check-circle"></i> FaceShifter</li>
+                            <li><i class="fas fa-check-circle"></i> FaceSwap</li>
+                            <li><i class="fas fa-check-circle"></i> NeuralTextures</li>
+                            <li><i class="fas fa-check-circle"></i> LipSync</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Advanced Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered</h3>
+                    <p>Advanced machine learning models trained on vast real and fake media samples for
+                        excellent accuracy.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Fast Analysis</h3>
+                    <p>Get results in seconds with our optimized processing pipeline. Most analyses complete in under 3
+                        seconds.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>Detailed Reports</h3>
+                    <p>Comprehensive analysis reports with detection factors, and visual evidence.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your files are processed securely and never stored on our servers. Complete privacy protection.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Multi-Format Support</h3>
+                    <p>Supports images (JPG, PNG) and videos (MP4, AVI, MOV) up to 100MB in size.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Analysis History</h3>
+                    <p>Track your detection history with detailed records.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Detect Deepfakes?</h2>
+                <p>Join the users who trust FakeBuster for authentic media verification.</p>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <a href="{{ url_for('signup') }}" class="btn btn-primary btn-large">
+                        <i class="fas fa-user-plus"></i>
+                        Get Started Free
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">
+                        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="FakeBuster" class="logo-img">
+                        FakeBuster
+                    </div>
+                    <p>Advanced deepfake detection technology to protect against manipulated media and ensure digital
+                        authenticity.
+                    </p>
+                    <p style="color: #94a3b8; font-size: 0.9rem; margin-top: 10px;">
+                        <i>This is a only a project demonstration website.</i>
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <a href="{{ url_for('analysis') }}">Detection</a>
+                    <a href="{{ url_for('history') }}">History</a>
+                    <a href="{{url_for('dashboard')}}">Dashboard</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Information</h4>
+                    <a href="{{ url_for('index') }}#features">Features</a>
+                    <a href="{{ url_for('index') }}#about">How It Works</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 FakeBuster. All rights reserved. Protecting digital authenticity.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script>
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
