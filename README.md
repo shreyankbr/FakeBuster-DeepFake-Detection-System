@@ -2,6 +2,8 @@
 
 FakeBuster is a web-based application that uses deep learning to detect deepfake videos and images with high accuracy. The system provides visual explanations of its predictions using GradCAM heatmaps and maintains user analysis history.
 
+https://huggingface.co/spaces/shreyankbr/FakeBuster
+
 ## Key Features
 
 - 🎭 **Multi-Format Detection**: Supports both video files and image frames analysis
