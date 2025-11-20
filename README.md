@@ -109,7 +109,7 @@ Achieved state-of-the-art performance on the validation set using the champion c
 
 ```bash
 git clone [https://github.com/shreyankbr/FakeBuster-DeepFake-Detection-System.git](https://github.com/shreyankbr/FakeBuster-DeepFake-Detection-System.git)
-cd fakebuster
+cd FakeBuster-DeepFake-Detection-System
 ```
 
 ### 2\. Environment Setup
@@ -153,5 +153,6 @@ Access the application at `http://localhost:5000`.
 -----
 
 ## 📄 License
+
 
 Distributed under the MIT License. See `LICENSE` for more details.
