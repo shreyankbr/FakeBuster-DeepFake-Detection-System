@@ -140,4 +140,4 @@ For those who only want the project, I have uploaded my trained model (12f/5.pth
 - Dark theme
 
 # License
-This project is licensed under the MIT License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
