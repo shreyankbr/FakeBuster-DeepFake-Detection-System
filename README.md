@@ -1,145 +1,179 @@
 # FakeBuster - Advanced Deepfake Detection System
 
-FakeBuster is a web-based application that uses deep learning to detect deepfake videos and images with high accuracy. The system provides visual explanations of its predictions using GradCAM heatmaps and maintains user analysis history.
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=flat&logo=PyTorch&logoColor=white)](https://pytorch.org/)
+[![Flask](https://img.shields.io/badge/Flask-%23000.svg?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-https://huggingface.co/spaces/shreyankbr/FakeBuster
+**FakeBuster** is a web-based application leveraging deep learning to detect deepfake videos and images with high accuracy. Utilizing a Dual-Branch architecture, the system analyzes both RGB data and Frequency domain features (FFT) to spot manipulation artifacts invisible to the naked eye.
 
-## Key Features
+## 🚀 Live Demo
+Try the model implementation on Hugging Face:
+**[🔗 Launch FakeBuster Space](https://huggingface.co/spaces/shreyankbr/FakeBuster)**
 
-- 🎭 **Multi-Format Detection**: Supports both video files and image frames analysis
-- 🔍 **Dual-Branch Architecture**: Combines RGB and FFT analysis for enhanced accuracy
-- 📊 **Visual Explanations**: GradCAM heatmaps highlight manipulated regions
-- 👤 **User Accounts**: Secure authentication and analysis history tracking
-- 🎯 **Confidence Scoring**: Detailed probability scores for real/fake classification
-- 📱 **Responsive Design**: Works seamlessly across desktop and mobile devices
+---
 
-## Technology Stack
+## 🧠 Architecture Overview
 
-### Frontend
-- HTML, CSS, JavaScript
-- Firebase Authentication
-- Firebase Firestore (NoSQL database)
-- Chart.js (Visualizations)
+```mermaid
+graph TD
+    Input[Input Video/Image] --> A[Frame Extraction]
+    A --> B{Dual-Branch Processing}
+    B -->|Branch 1| C[RGB Spatial Analysis<br/>EfficientNet-B4]
+    B -->|Branch 2| D[Frequency Domain Analysis<br/>FFT + EfficientNet-B0]
+    C --> E[Feature Concatenation]
+    D --> E
+    E --> F[Fully Connected Layers]
+    F --> Output[Probability Score<br/>Real vs Fake]
+````
 
-### Backend & AI
-- Python 3.11+
-- Flask
-- PyTorch (Deep Learning)
-- EfficientNet-B4 & B0 (Dual-Branch CNN Architecture)
-- OpenCV (Video Processing)
-- Timm (PyTorch Image Models)
+## 📸 Screenshots
 
-## Dataset
+*The Analysis Dashboard showing a detected deepfake with 99.8% confidence.*
 
-The model was trained on the a preprocessed version of FaceForensics++ dataset containing 5,995 videos across real and fake categories:
+*GradCAM heatmap highlighting the manipulated facial regions.*
 
-- **999 real videos** from YouTube
-- **4,996 fake videos** across 5 manipulation types:
-  1. DeepFakes
-  2. Face2Face
-  3. FaceShifter
-  4. FaceSwap
-  5. NeuralTextures
+-----
 
-The dataset I used is available on Kaggle (https://www.kaggle.com/datasets/adham7elmy/faceforencispp-extracted-frames/data). Any dataset from Kaggle can be taken, but be sure to make the necessary name changes in all of the files.
+## ✨ Key Features
 
-For those who only want the project, I have uploaded my trained model (12f/5.pth) in huggingface, you may use that model and skip preprocessing and model training.
+  - **🎭 Multi-Format Detection:** Supports video files (MP4, AVI, MOV) and frame-based image analysis.
+  - **🔍 Dual-Branch Architecture:** Combines **EfficientNet-B4** (Spatial/RGB) and **EfficientNet-B0** (Frequency/FFT) for robust detection.
+  - **📊 Visual Explainability:** Generates GradCAM heatmaps to visualize exactly *where* the model detects manipulation.
+  - **👤 User System:** Secure Firebase authentication with persistent analysis history.
+  - **🎯 High Precision:** Validated AUC of **0.9790** on FaceForensics++.
+  - **📱 Responsive Design:** Seamless experience across desktop and mobile devices.
 
-## R&D: Frame Rate Optimization
+-----
 
-**Training Configuration:**
-- **12 frames per video** during training
-- **Balanced sampling**: Temporal coverage with random sampling during training, uniform during validation
-- **Frame extraction**: Smart sampling from videos to maximize temporal information
+## 🛠️ Technology Stack
 
-**Inference Configuration:**
-- **18 frames per analysis** during inference
-- **Optimized processing**: Frame extraction with padding for consistent input size
-- **Threshold**: **0.45** probability threshold for fake/real classification
+| Component | Technologies |
+|-----------|--------------|
+| **Frontend** | HTML5, CSS3, JavaScript, Chart.js |
+| **Backend** | Python 3.11+, Flask |
+| **Deep Learning** | PyTorch, Timm, OpenCV |
+| **Architecture** | EfficientNet-B4 (RGB) + EfficientNet-B0 (Frequency) |
+| **Database/Auth** | Firebase Firestore, Firebase Auth |
 
-**Performance Metrics:**
-- Validation AUC: **0.9790** (Best epoch)
-- Accuracy: **94.42%**
-- F1 Score: **0.9660**
+-----
 
-## Installation
+## 📊 Model Performance & R\&D
+
+### Dataset
+
+The model was trained on a preprocessed version of the **FaceForensics++** dataset (5,995 videos):
+
+  * **Real:** 999 YouTube videos
+  * **Fake:** 4,996 videos (DeepFakes, Face2Face, FaceShifter, FaceSwap, NeuralTextures)
+
+### Frame Rate Optimization Strategy
+
+We implemented a smart sampling strategy to maximize temporal information while maintaining inference speed.
+
+| Metric | Training Configuration | Inference Configuration |
+|--------|------------------------|-------------------------|
+| **Frames** | 12 frames/video | 18 frames/video |
+| **Sampling** | Random Temporal | Padding + Uniform |
+| **Threshold** | N/A | **0.45** (Probability \> 0.45 = Fake) |
+
+### Validation Metrics
+
+  - **Validation AUC:** 0.9790 (Best Epoch)
+  - **Accuracy:** 94.42%
+  - **F1 Score:** 0.9660
+
+> **Note:** For a quick start without training, download my pre-trained model `12f/5.pth` from the Hugging Face repository linked above.
+
+-----
+
+## ⚙️ Installation & Setup
 
 ### Prerequisites
-- Python 3.11+
-- Firebase account
-- Visual Studio Code Preferred
 
-### Local Setup
+  * Python 3.11+
+  * Firebase Account
+  * Visual Studio Code (Recommended)
 
-1. Download the repository and keep the structure the same
+### 1\. Clone the Repository
 
-2. Virtual Environment:
+```bash
+git clone [https://github.com/yourusername/fakebuster.git](https://github.com/yourusername/fakebuster.git)
+cd fakebuster
+```
 
-    - Set up a virtual environment in the repo folder 
+### 2\. Environment Setup
 
-    - Run pip install -r requirements.txt in cmd after changing into the repo folder
+Create and activate a virtual environment:
 
-3. **Firebase Configuration**:
+**Windows:**
 
-    - Create a new Firebase project
-     
-    - Enable Email/Password authentication in Firebase Console
-     
-    - Update firebaseConfig in static/js/firebase-config.js
-      ```javascript
-      const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_AUTH_DOMAIN",
-        databaseURL: "YOUR_DATABASE_URL",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_STORAGE_BUCKET",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-      };
-      ```
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-    - Apply the rules given in Firestore rules.txt to firestore rules
+**Mac/Linux:**
 
-4. Dataset Preprocessing:
-  
-    - Download FaceForensics++ dataset from Kaggle and make necessary changes in all files regarding names
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-    - Run the notebook for data preprocessing and model training
+Install dependencies:
 
-5. Model training:
+```bash
+pip install -r requirements.txt
+```
 
-    - Run the training notebook and train the model and select the best ones from the many epochs
+### 3\. Firebase Configuration
 
-6. Run:
+1.  Create a project in the [Firebase Console](https://console.firebase.google.com/).
+2.  Enable **Email/Password** in the Authentication tab.
+3.  Create a Firestore Database and apply the security rules found in `Firestore rules.txt`.
+4.  Update `static/js/firebase-config.js`:
 
-    - Run app.py preferable in visual studio code in dedicated terminal and open the localhost link with the 5000 port
-   
-## Usage
+<!-- end list -->
 
-- **Trial Mode**: Use without account (no history saving)
-- **Registration/Login**: Create account for analysis history
-- **Video Analysis**: Upload MP4, AVI, MOV files (max 100MB)
-- **Frame Analysis**: Upload multiple image frames from videos
-- **Analyze**: Click "Analyze for Deepfakes" button
-- **View Results**: See predictions with confidence scores and heatmaps
-- **History**: Track previous analyses in dashboard
+```javascript
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+```
 
-## Limitations
+### 4\. Run the Application
 
-⚠️ Important: This is a demonstration project only. The system has several limitations:
-- Accuracy may vary with new manipulation techniques not in training data
-- Performance depends on video quality and face visibility
-- Should not be used for critical security applications without further validation
-- Analysis may take longer depending on file processing
+```bash
+python app.py
+```
 
-## Areas of Improvement
+Access the application at `http://localhost:5000`.
 
-- Feel free to use any better CNN architectures or transformer models
-- Add support for newer deepfake techniques like GAN-based manipulations
-- Implement real-time video stream analysis
-- Add multi-language support
-- Improve model accuracy with more data
-- Dark theme
+-----
 
-# License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## ⚠️ Limitations
+
+This project is intended for educational and research purposes.
+
+  * **Generalization:** Accuracy may decrease on manipulation techniques not present in FaceForensics++.
+  * **Lighting:** Extreme lighting conditions or heavy compression can affect prediction confidence.
+  * **Processing Time:** Analysis speed depends on client hardware (GPU recommended).
+
+## 🔮 Future Improvements
+
+  * [ ] Integration of Transformer-based models (ViT).
+  * [ ] Support for GAN-based deepfake detection.
+  * [ ] Real-time webcam stream analysis.
+  * [ ] Dark Mode UI implementation.
+
+-----
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
