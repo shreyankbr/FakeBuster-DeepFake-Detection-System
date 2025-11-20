@@ -5,44 +5,51 @@
 [![Flask](https://img.shields.io/badge/Flask-%23000.svg?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**FakeBuster** is a web-based application leveraging deep learning to detect deepfake videos and images with high accuracy. Utilizing a Dual-Branch architecture, the system analyzes both RGB data and Frequency domain features (FFT) to spot manipulation artifacts invisible to the naked eye.
+**FakeBuster** is a robust deepfake detection framework capable of identifying hyper-realistic synthetic media. It employs a **Dual-Branch EfficientNet architecture** that fuses Spatial (RGB) and Frequency (FFT) domain features to detect manipulation artifacts that are often invisible to the naked eye.
 
 ## 🚀 Live Demo
-Try the model implementation on Hugging Face:
+Try the deployed model on Hugging Face Spaces:
 **[🔗 Launch FakeBuster Space](https://huggingface.co/spaces/shreyankbr/FakeBuster)**
 
 ---
 
 ## 🧠 Architecture Overview
 
+The system utilizes a "DualBranchEfficientNet" design to capture complementary evidence of forgery:
+
+1.  [cite_start]**Spatial Branch (RGB):** Uses **EfficientNet-B4** (pretrained on ImageNet) to detect semantic inconsistencies and blending artifacts in standard video frames[cite: 97].
+2.  [cite_start]**Frequency Branch (FFT):** Uses **EfficientNet-B0** on Fast Fourier Transform (FFT) representations to identify spectral irregularities and checking for abnormal high-frequency noise patterns[cite: 98].
+
+[cite_start]These features are aggregated via **Temporal Pooling** and fused into a 1024-dimensional vector before final classification[cite: 112].
+
 ```mermaid
 graph TD
-    Input[Input Video/Image] --> A[Frame Extraction]
-    A --> B{Dual-Branch Processing}
-    B -->|Branch 1| C[RGB Spatial Analysis<br/>EfficientNet-B4]
-    B -->|Branch 2| D[Frequency Domain Analysis<br/>FFT + EfficientNet-B0]
-    C --> E[Feature Concatenation]
+    Input[Input Video] --> S[Frame Sampling<br/>18 frames/video]
+    S --> B{Dual-Branch Processing}
+    B -->|Branch 1: Spatial| C[RGB Stream<br/>EfficientNet-B4]
+    B -->|Branch 2: Frequency| D[FFT Stream<br/>EfficientNet-B0]
+    C --> E[Feature Fusion<br/>Concatenate 1024D]
     D --> E
-    E --> F[Fully Connected Layers]
-    F --> Output[Probability Score<br/>Real vs Fake]
+    E --> F[Temporal Pooling]
+    F --> G[Classifier<br/>Sigmoid Activation]
+    G --> Output[Real vs Fake Probability]
 ````
 
 ## 📸 Screenshots
 
-*The Analysis Dashboard showing a detected deepfake with 99.8% confidence.*
+*The Analysis Dashboard showing a detected deepfake with high confidence.*
 
-*GradCAM heatmap highlighting the manipulated facial regions.*
+[cite\_start]*GradCAM heatmaps visualizing the specific facial regions influencing the model's decision[cite: 161].*
 
 -----
 
 ## ✨ Key Features
 
-  - **🎭 Multi-Format Detection:** Supports video files (MP4, AVI, MOV) and frame-based image analysis.
-  - **🔍 Dual-Branch Architecture:** Combines **EfficientNet-B4** (Spatial/RGB) and **EfficientNet-B0** (Frequency/FFT) for robust detection.
-  - **📊 Visual Explainability:** Generates GradCAM heatmaps to visualize exactly *where* the model detects manipulation.
-  - **👤 User System:** Secure Firebase authentication with persistent analysis history.
-  - **🎯 High Precision:** Validated AUC of **0.9790** on FaceForensics++.
-  - **📱 Responsive Design:** Seamless experience across desktop and mobile devices.
+  - [cite\_start]**🎭 Dual-Domain Analysis:** Simultaneously analyzes pixel integrity (RGB) and spectral consistency (FFT) for superior accuracy[cite: 66].
+  - [cite\_start]**📊 Visual Explainability:** Integrated **Grad-CAM** (Gradient-weighted Class Activation Mapping) provides heatmaps to interpret model decisions[cite: 161].
+  - [cite\_start]**🎯 Optimized Sampling:** Implements smart temporal sampling (12 frames for training, 18 for inference) to balance speed and accuracy[cite: 144].
+  - [cite\_start]**🔒 Secure Platform:** Features Firebase authentication and session management for secure user history[cite: 162].
+  - [cite\_start]**☁️ Scalable Deployment:** Containerized via Docker and capable of running on cloud environments or local GPUs[cite: 163].
 
 -----
 
@@ -50,40 +57,33 @@ graph TD
 
 | Component | Technologies |
 |-----------|--------------|
-| **Frontend** | HTML5, CSS3, JavaScript, Chart.js |
-| **Backend** | Python 3.11+, Flask |
-| **Deep Learning** | PyTorch, Timm, OpenCV |
-| **Architecture** | EfficientNet-B4 (RGB) + EfficientNet-B0 (Frequency) |
-| **Database/Auth** | Firebase Firestore, Firebase Auth |
+| **Deep Learning** | PyTorch, Timm (Image Models), Torch.cuda.amp (Mixed Precision) |
+| **Computer Vision** | OpenCV, Pillow, Albumentations |
+| **Backend** | Python 3.11+, Flask, Gunicorn |
+| **Frontend** | HTML5, CSS3, JavaScript (Fetch API), Chart.js |
+| **Infrastructure** | Docker, Firebase (Auth/DB), Hugging Face Spaces |
 
 -----
 
-## 📊 Model Performance & R\&D
+## 📊 Performance Metrics
 
-### Dataset
+[cite\_start]The model was trained and validated on the **FaceForensics++** dataset (Real, DeepFakes, Face2Face, FaceShifter, FaceSwap, NeuralTextures)[cite: 78].
 
-The model was trained on a preprocessed version of the **FaceForensics++** dataset (5,995 videos):
+### Validation Results
 
-  * **Real:** 999 YouTube videos
-  * **Fake:** 4,996 videos (DeepFakes, Face2Face, FaceShifter, FaceSwap, NeuralTextures)
+[cite\_start]Achieved state-of-the-art performance on the validation set using the champion configuration (12-frame training / 18-frame inference)[cite: 144, 218]:
 
-### Frame Rate Optimization Strategy
+| Metric | Score |
+|--------|-------|
+| **AUC** | **0.9678** |
+| **F1-Score** | **0.9672** |
+| **Accuracy** | **94.58%** |
+| **Precision** | **97.56%** |
+| **Recall** | **92.86%** |
 
-We implemented a smart sampling strategy to maximize temporal information while maintaining inference speed.
+### Robustness
 
-| Metric | Training Configuration | Inference Configuration |
-|--------|------------------------|-------------------------|
-| **Frames** | 12 frames/video | 18 frames/video |
-| **Sampling** | Random Temporal | Padding + Uniform |
-| **Threshold** | N/A | **0.45** (Probability \> 0.45 = Fake) |
-
-### Validation Metrics
-
-  - **Validation AUC:** 0.9790 (Best Epoch)
-  - **Accuracy:** 94.42%
-  - **F1 Score:** 0.9660
-
-> **Note:** For a quick start without training, download my pre-trained model `12f/5.pth` from the Hugging Face repository linked above.
+[cite\_start]The model demonstrates strong generalization with a **Cross-Dataset AUC of 0.8155**, proving efficacy against manipulation types not seen during training[cite: 155].
 
 -----
 
@@ -93,59 +93,36 @@ We implemented a smart sampling strategy to maximize temporal information while 
 
   * Python 3.11+
   * Firebase Account
-  * Visual Studio Code (Recommended)
+  * CUDA-enabled GPU (Recommended for training)
 
 ### 1\. Clone the Repository
 
 ```bash
-git clone [https://github.com/yourusername/fakebuster.git](https://github.com/yourusername/fakebuster.git)
+git clone [https://github.com/shreyankbr/fakebuster.git](https://github.com/shreyankbr/fakebuster.git)
 cd fakebuster
 ```
 
 ### 2\. Environment Setup
 
-Create and activate a virtual environment:
-
-**Windows:**
-
 ```bash
+# Create virtual environment
 python -m venv venv
+
+# Activate (Windows)
 venv\Scripts\activate
-```
 
-**Mac/Linux:**
-
-```bash
-python3 -m venv venv
+# Activate (Mac/Linux)
 source venv/bin/activate
-```
 
-Install dependencies:
-
-```bash
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 3\. Firebase Configuration
+### 3\. Configuration
 
-1.  Create a project in the [Firebase Console](https://console.firebase.google.com/).
-2.  Enable **Email/Password** in the Authentication tab.
-3.  Create a Firestore Database and apply the security rules found in `Firestore rules.txt`.
-4.  Update `static/js/firebase-config.js`:
-
-<!-- end list -->
-
-```javascript
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DATABASE_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-```
+1.  Set up a **Firebase Project** and enable Email/Password Authentication.
+2.  Create a **Firestore Database**.
+3.  Update `static/js/firebase-config.js` with your credentials.
 
 ### 4\. Run the Application
 
@@ -157,23 +134,14 @@ Access the application at `http://localhost:5000`.
 
 -----
 
-## ⚠️ Limitations
+## 🔮 Future Roadmap
 
-This project is intended for educational and research purposes.
-
-  * **Generalization:** Accuracy may decrease on manipulation techniques not present in FaceForensics++.
-  * **Lighting:** Extreme lighting conditions or heavy compression can affect prediction confidence.
-  * **Processing Time:** Analysis speed depends on client hardware (GPU recommended).
-
-## 🔮 Future Improvements
-
-  * [ ] Integration of Transformer-based models (ViT).
-  * [ ] Support for GAN-based deepfake detection.
-  * [ ] Real-time webcam stream analysis.
-  * [ ] Dark Mode UI implementation.
+  * [cite\_start]**Edge Computing:** Optimization for mobile and embedded devices (e.g., NPU integration) to enable on-device detection[cite: 252].
+  * [cite\_start]**Blockchain Integration:** Implementing distributed ledger technology (DLT) for immutable content provenance and authenticity tracking[cite: 256].
+  * [cite\_start]**Real-Time Stream Analysis:** Enhanced optimization for processing live video feeds with minimal latency[cite: 254].
 
 -----
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See `LICENSE` for more details.
