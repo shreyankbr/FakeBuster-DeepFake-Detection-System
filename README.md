@@ -154,5 +154,4 @@ Access the application at `http://localhost:5000`.
 
 ## 📄 License
 
-
-Distributed under the MIT License. See `LICENSE` for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
