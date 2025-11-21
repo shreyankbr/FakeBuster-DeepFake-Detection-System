@@ -152,6 +152,12 @@ Access the application at `http://localhost:5000`.
 
 -----
 
+## Citation
+
+A. Rössler, D. Cozzolino, L. Verdoliva, C. Riess, J. Thies and M. Nießner, "FaceForensics++: Learning to Detect Manipulated Facial Images," in Proceedings of the IEEE International Conference on Computer Vision (ICCV), 2019.
+
+-----
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
