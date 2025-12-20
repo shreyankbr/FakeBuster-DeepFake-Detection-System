@@ -98,6 +98,20 @@ Achieved state-of-the-art performance on the validation set using the champion c
 
 -----
 
+## 🧾 Intellectual Property
+
+This project forms the basis of an **Indian Patent Application** related to deepfake detection using multi-domain feature analysis.
+
+- **Title:** Detecting Digital Deception: A Robust Deepfake Identification Framework  
+- **Application Number:** 202541112330  
+- **Status:** Patent Application Published  
+- **Jurisdiction:** Indian Patent Office  
+- **Publication Date:** 5 December 2025  
+
+The patent focuses on the architectural design and training strategy used to combine spatial (RGB) and frequency-domain (FFT) features for robust deepfake detection.
+
+-----
+
 ## ⚙️ Installation & Setup
 
 ### Prerequisites
@@ -162,4 +176,5 @@ A. Rössler, D. Cozzolino, L. Verdoliva, C. Riess, J. Thies and M. Nießner, "Fa
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
