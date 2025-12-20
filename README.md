@@ -12,11 +12,17 @@
 Try the deployed model on Hugging Face Spaces:
 **[🔗 Launch FakeBuster Space](https://huggingface.co/spaces/shreyankbr/FakeBuster)**
 
+![FakeBuster Demo GIF](assets/demo.gif)
+
 ---
 
 ## 🧠 Architecture Overview
 
 I designed the system using a "DualBranchEfficientNet" architecture to capture complementary evidence of forgery:
+
+### Model Interpretability
+![Grad-CAM Heatmap Analysis](assets/result.png)
+*Figure: Grad-CAM visualization highlighting manipulation artifacts detected by the model.*
 
 1. **Spatial Branch (RGB):** Uses **EfficientNet-B4** (pretrained on ImageNet) to detect semantic inconsistencies and blending artifacts in standard video frames.
 2. **Frequency Branch (FFT):** Uses **EfficientNet-B0** on Fast Fourier Transform (FFT) representations to identify spectral irregularities and abnormal high-frequency noise patterns.
@@ -83,6 +89,10 @@ A major challenge in deepfake detection is handling "unseen" manipulation types.
 ## 📊 Performance Metrics
 
 I trained and validated the model on the preprocessed version of **FaceForensics++** dataset (Real, DeepFakes, Face2Face, FaceShifter, FaceSwap, NeuralTextures). (https://www.kaggle.com/datasets/adham7elmy/faceforencispp-extracted-frames)
+
+<p align="center">
+  <img src="assets/roc.png" width="45%" />
+</p>
 
 ### Validation Results
 
@@ -176,5 +186,6 @@ A. Rössler, D. Cozzolino, L. Verdoliva, C. Riess, J. Thies and M. Nießner, "Fa
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
 
