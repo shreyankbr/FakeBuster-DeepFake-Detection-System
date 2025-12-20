@@ -22,6 +22,7 @@ I designed the system using a "DualBranchEfficientNet" architecture to capture c
 
 ### Model Interpretability
 ![Grad-CAM Heatmap Analysis](assets/result.png)
+
 *Figure: Grad-CAM visualization highlighting manipulation artifacts detected by the model.*
 
 1. **Spatial Branch (RGB):** Uses **EfficientNet-B4** (pretrained on ImageNet) to detect semantic inconsistencies and blending artifacts in standard video frames.
@@ -186,6 +187,7 @@ A. Rössler, D. Cozzolino, L. Verdoliva, C. Riess, J. Thies and M. Nießner, "Fa
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 
 
 
